@@ -4,7 +4,7 @@
 
 ### Conversion
 
-####Base-R to Decimal Conversion
+#### Base-R to Decimal Conversion
 
 $$
 1101.101_2=1\times2^3+1\times2^2+1\times2^0+1\times2^{-1}+1\times2^{-3}
@@ -14,9 +14,10 @@ $$
 2A.8_{16} = 2\times16^1+10\times16^0+8\times16^{-1}
 $$
 
-####Decimal to Base-R Conversion
+#### Decimal to Base-R Conversion
 
 Repeated Division-by-R Method(For whole numbers)
+
 $$
 43_{10}=101011_{2}
 $$
@@ -25,24 +26,26 @@ $$
 \begin{array}{|c|c|c|}
 \hline
 number & & reminder\\
-\hline 
+\hline
 43 & \%2 & {} \\
 \hline
 21 & \%2 & 1(LSB)\\
 \hline
 10 & \%2& 1\\
-\hline 
+\hline
 5 & \%2& 0\\
-\hline 
+\hline
 2 &\%2 & 1\\
-\hline 
+\hline
 1 & \%2& 0\\
-\hline 
+\hline
 0 &\%2 & 1(MSB)\\
 \hline
 \end{array}
 $$
+
 Repeated Multiplication-by-R Method(For fractions)
+
 $$
 0.3125_{10}=.0101_{2}
 $$
@@ -57,13 +60,13 @@ number & & reminder\\
 0.625 & \times2 & 0(MSB)\\
 \hline
 1.25 & & 1\\
-\hline 
+\hline
 0.25 & \times 2& \\
-\hline 
+\hline
 0.5 & \times2 & 0\\
-\hline 
+\hline
 1 &  & 1(LSB)\\
-\hline 
+\hline
 0 &  & \\
 \hline
 \end{array}
@@ -73,15 +76,11 @@ $$
 
 Bin to Hex: **grouping** of binary digits into sets of 4, **Conversion** each group of 4 bits to corresponding hexadecimals for example 1010 to A, **Concatenation** every hex digits.
 
-
-
 ### ASCII Code
 
 American Standard Code for Information Interchange(ASCII), 7 bits, 1 parity bit(for odd or even parity)
 
 mind that digits( 0 - 9 ) < capital letter ( A - Z ) < lowercase letter ( a - z )
-
-
 
 ### Negative Number
 
@@ -112,9 +111,9 @@ For n-bit Sign-and-Magnitude number:
 
 #### Complement
 
-**REMIND**: **Positive **number’s complement is itself.
+**REMIND**: **Positive** number’s complement is itself.
 
-A **Negative **number’s complement is calculated as:
+A **Negative** number’s complement is calculated as:
 
 ##### 1’s complement:
 
@@ -154,7 +153,7 @@ $$
 =&11110100_{2's}
 \end{aligned}
 $$
-**TECHNIQUE**: Convert to binary(0000 1100), **invert **all bits(1111 0011), **add 1**(1111 0100)
+**TECHNIQUE**: Convert to binary(0000 1100), **invert** all bits(1111 0011), **add 1**(1111 0100)
 
 Largest Value: $2^{n-1}-1|_{n=8}=0111\ 1111=127$
 
@@ -170,7 +169,7 @@ The main idea of complement is the same. For negative number, 1’s complement t
 
 #### Base-R complement
 
-For a number in Base-R, there are two kinds of complement: **r’s complement** and **r-1’s complement**. Positive numbers are themselves. **Negative **number with **n-bit integer** part and **m-bit fraction** part, the complement is computed as:
+For a number in Base-R, there are two kinds of complement: **r’s complement** and **r-1’s complement**. Positive numbers are themselves. **Negative** number with **n-bit integer** part and **m-bit fraction** part, the complement is computed as:
 
 - r’s complement
 
@@ -188,13 +187,13 @@ $$
 -x=r^{n}-r^{m}-x
 $$
 
-Similarly, r-1’s complement of a negative n-bit integer and m-bit fraction add its positive counterpart yield $r^n-r^m$(which is all ones, 1111.1111) 
+Similarly, r-1’s complement of a negative n-bit integer and m-bit fraction add its positive counterpart yield $r^n-r^m$(which is all ones, 1111.1111).
 
 ### Addition and Subtraction
 
 Signed numbers are of a **fixed** range, so if go beyond this range, **overflow** occurs.
 
-Check Overflow: 
+Check Overflow:
 
 - positive add positive -> negative
 - negative add negative -> positive
@@ -202,6 +201,7 @@ Check Overflow:
 For 2’s complement, if there is a carry out of MSB, ignore.
 
 For 1’s complement, if there is a carry out of MSB, **add 1** to the result
+
 $$
 \begin{aligned}
 -2+-5 = &1101+1010\\
@@ -209,6 +209,7 @@ $$
 =& 1000=-7
 \end{aligned}
 $$
+
 Subtraction is add the second operand’s complement.
 
 ### Excess Notation
