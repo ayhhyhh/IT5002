@@ -54,7 +54,7 @@ $$
 \begin{array}{|c|c|c|}
 \hline
 number & & reminder\\
-\hline 
+\hline
  0.3125 & \times2 & {} \\
 \hline
 0.625 & \times2 & 0(MSB)\\
@@ -98,14 +98,15 @@ For **Signed Binary Number**, there are 3 common representations:
 the sign is represented by **sign bit**: 0 for +, 1 for -
 
 Example: 1-bit sign and 7-bit magnitude
+
 $$
 +52_{10} = + 110100_2=00110100\\
 -19_{10} = - 10011_2=10010011
 $$
+
 For n-bit Sign-and-Magnitude number:
 
 - Largest Value: $2^{(n-1)}-1$ (n-1 ones)
-
 - Smallest Value: $-2^{n-1}+1$
 - Zeros: +0 and -0
 
@@ -115,13 +116,14 @@ For n-bit Sign-and-Magnitude number:
 
 A **Negative** number’s complement is calculated as:
 
-##### 1’s complement:
+##### 1’s complement
 
 $$
 -x=2^n-1-x
 $$
 
 For example: -12 1’s complement (8 bit)
+
 $$
 \begin{aligned}
 -12=&2^8-1-12\\
@@ -129,6 +131,7 @@ $$
 =&1111\ 0011_{1's}
 \end{aligned}
 $$
+
 **TECHNIQUE**: invert all bits.
 
 Largest Value: $2^{n-1}-1=0111\ 1111=127$
@@ -139,13 +142,14 @@ Zeros: $+0=0000\ 0000; \ \ -0=1111\ 1111$
 
 MSB can still represent sign.
 
-##### 2’s complement:
+##### 2’s complement
 
 $$
 -x=2^n-x
 $$
 
 For example: -12 2’s complement (8 bit)
+
 $$
 \begin{aligned}
 -12_{10}=& 2^8-12 \\
@@ -153,6 +157,7 @@ $$
 =&11110100_{2's}
 \end{aligned}
 $$
+
 **TECHNIQUE**: Convert to binary(0000 1100), **invert** all bits(1111 0011), **add 1**(1111 0100)
 
 Largest Value: $2^{n-1}-1|_{n=8}=0111\ 1111=127$
@@ -217,6 +222,7 @@ Subtraction is add the second operand’s complement.
 Excess Notation swifts the binary number.
 
 For example, 000 in BIN is corresponding to 0 in DEC. In Excess-4 representation, 000 in BIN is corresponding to -4 in DEC, other number are swift like this.
+
 $$
 \begin{array}{|c|c|}
 \hline
@@ -250,6 +256,7 @@ Range is limited.
 #### Floating Point Representation
 
 3 component: sign, exponent, mantissa(fraction)
+
 $$
 \begin{array}{|c|c|c|}
 \hline
@@ -257,6 +264,7 @@ $$
 \hline
 \end{array}
 $$
+
 The base (radix) is assumed to be 2.
 
 Two formats (IEEE 754):
@@ -265,6 +273,7 @@ Two formats (IEEE 754):
 - Double-precision (64 bits): 1-bit sign, 11-bit, exponent with bias 1023 (excess-1023), 52-bit mantissa
 
 **IMPORTANT**
+
 $$
 \begin{array}{|c|c|c|c|}
 \hline
