@@ -287,3 +287,47 @@ $$
 \hline
 \end{array}
 $$
+
+
+## MIPS
+
+### Brief
+
+- **Complier**: translates code into assembly language statement.
+- **Assembler**: translates assembly language into machine language instructions.
+
+- **Instruction Set Architecture** (ISA): An abstraction on interface between the hardware and the low-level software. (**Independent **from hardware)
+
+Summary:
+
+- Instruction and data are stored in memory **together**.
+
+- Load-Store Model: Limit memory operation and rely on registers for storage during execution.(Only Load and Store Instruction access memory)
+
+- Instruction Types: Memory, Calculation, Control Flow.
+
+- General Purpose Register:
+
+  - Faster processing
+
+  - Limited in number: 16 / 32 (MIPS) 个，**complier **associate variables with registers
+
+  - | **Name**    | **Register  number** | **Usage**|
+    | ----------- | -------------------- | ---------- |
+    | \$zero	| 0						| Constant  value 0 |
+    | \$at	| 1						| Reserved for the assembler |
+    | \$v0-\$v1 | 2-3					| Values  for results and expression evaluation |
+    |\$a0-\$a3 | 4-7						| Arguments|
+    |\$t0-\$t7 | 8-15					| Temporaries|
+    |\$s0-\$s7 | 16-23					| Program  variables|
+    |\$t8-\$t9 | 24-25					| More  temporaries |
+    | \$k0-\$k1	| 26-27						| Reserved for OS |
+    |\$gp 		| 28    | Global  pointer   |
+    |\$sp		| 29    | Stack  pointer    |
+    |\$fp 		| 30    | Frame  pointer    |
+    |\$ra 		| 31    | Return  address   |
+
+  - **No Data Type**
+
+
+
