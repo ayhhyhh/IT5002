@@ -18,28 +18,28 @@ $$
 
 Repeated Division-by-R Method(For whole numbers)
 
-$$
+$$ 
 43_{10}=101011_{2}
-$$
-
-$$
-\begin{array}{|c|c|c|}
+$$ 
+ 
+$$ 
+\begin{array}{|c|c|c|} 
+\hline 
+\text{number} & & \text{reminder} \newline
+\hline 
+43 &  & {} \\
 \hline
-number & & reminder\\
+21 & \mod 2 & 1(LSB) \\
 \hline
-43 & \%2 & {} \\
+10 & \mod 2 & 1\\
 \hline
-21 & \%2 & 1(LSB)\\
+5 & \mod 2 & 0\\
 \hline
-10 & \%2& 1\\
+2 & \mod 2 & 1\\
 \hline
-5 & \%2& 0\\
+1 & \mod 2 & 0\\
 \hline
-2 &\%2 & 1\\
-\hline
-1 & \%2& 0\\
-\hline
-0 &\%2 & 1(MSB)\\
+0 & \mod 2 & 1(MSB)\\
 \hline
 \end{array}
 $$
@@ -53,7 +53,7 @@ $$
 $$
 \begin{array}{|c|c|c|}
 \hline
-number & & reminder\\
+\text{number} & & \text{reminder}\\
 \hline
  0.3125 & \times2 & {} \\
 \hline
@@ -61,7 +61,7 @@ number & & reminder\\
 \hline
 1.25 & & 1\\
 \hline
-0.25 & \times 2& \\
+0.25 & \times 2 & \\
 \hline
 0.5 & \times2 & 0\\
 \hline
@@ -281,9 +281,9 @@ $$
 \hline
 00_\text{H} = 0000\ 0000_2 & \pm 0 & \text{denomalize number} & (-1)^{\text{sign}}\times 2^{-126}\times 0.\text{fraction}\\
 \hline 
-01_\text{H},...,\text{FE}_\text{H}& \text{normal} & \text{normal} & (-1)^{\text{sign}}\times 2^{\text{exponent}-127}\times 1.\text{fraction} \\
+01_\text{H},..., \text{FE}_ \text{H} & \text{normal} & \text{normal} & (-1)^{\text{sign}}\times 2^{\text{exponent}-127}\times 1.\text{fraction} \\
 \hline
-\text{FF}_\text{H} & \pm \infin & \text{NaN}& \\
+\text{FF}_\text{H} & \pm \infty & \text{NaN} & \\
 \hline
 \end{array}
 $$
