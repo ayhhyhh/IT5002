@@ -1,10 +1,8 @@
-# Notes for IT5002
+# Number System
 
-## Number System
+## Conversion
 
-### Conversion
-
-#### Base-R to Decimal Conversion
+### Base-R to Decimal Conversion
 
 $$
 1101.101_2=1\times2^3+1\times2^2+1\times2^0+1\times2^{-1}+1\times2^{-3}
@@ -14,7 +12,7 @@ $$
 2A.8_{16} = 2\times16^1+10\times16^0+8\times16^{-1}
 $$
 
-#### Decimal to Base-R Conversion
+### Decimal to Base-R Conversion
 
 Repeated Division-by-R Method(For whole numbers)
 
@@ -72,17 +70,17 @@ $$
 \end{array}
 $$
 
-#### Hex Oct Bin
+### Hex Oct Bin
 
 Bin to Hex: **grouping** of binary digits into sets of 4, **Conversion** each group of 4 bits to corresponding hexadecimals for example 1010 to A, **Concatenation** every hex digits.
 
-### ASCII Code
+## ASCII Code
 
 American Standard Code for Information Interchange(ASCII), 7 bits, 1 parity bit(for odd or even parity)
 
 mind that digits( 0 - 9 ) < capital letter ( A - Z ) < lowercase letter ( a - z )
 
-### Negative Number
+## Negative Number
 
 - Unsigned Numbers: Only non-negative values
 - Signed Numbers: Include all values
@@ -93,7 +91,7 @@ For **Signed Binary Number**, there are 3 common representations:
 - 1’s Complement
 - 2’s Complement
 
-#### Sign-and-Magnitude
+### Sign-and-Magnitude
 
 the sign is represented by **sign bit**: 0 for +, 1 for -
 
@@ -110,13 +108,13 @@ For n-bit Sign-and-Magnitude number:
 - Smallest Value: $-2^{n-1}+1$
 - Zeros: +0 and -0
 
-#### Complement
+### Complement
 
 **REMIND**: **Positive** number’s complement is itself.
 
 A **Negative** number’s complement is calculated as:
 
-##### 1’s complement
+#### 1’s complement
 
 $$
 -x=2^n-1-x
@@ -142,7 +140,7 @@ Zeros: $+0=0000\ 0000; \ \ -0=1111\ 1111$
 
 MSB can still represent sign.
 
-##### 2’s complement
+#### 2’s complement
 
 $$
 -x=2^n-x
@@ -168,11 +166,11 @@ Zero: $0=0000\ 0000$
 
 MSB can still represent sign
 
-##### Fraction
+#### Fraction
 
 The main idea of complement is the same. For negative number, 1’s complement to invert all bits, 2’s complement to invert and add 1. For positive number, complements are itself.
 
-#### Base-R complement
+### Base-R complement
 
 For a number in Base-R, there are two kinds of complement: **r’s complement** and **r-1’s complement**. Positive numbers are themselves. **Negative** number with **n-bit integer** part and **m-bit fraction** part, the complement is computed as:
 
@@ -194,7 +192,7 @@ $$
 
 Similarly, r-1’s complement of a negative n-bit integer and m-bit fraction add its positive counterpart yield $r^n-r^m$(which is all ones, 1111.1111).
 
-### Addition and Subtraction
+## Addition and Subtraction
 
 Signed numbers are of a **fixed** range, so if go beyond this range, **overflow** occurs.
 
@@ -217,7 +215,7 @@ $$
 
 Subtraction is add the second operand’s complement.
 
-### Excess Notation
+## Excess Notation
 
 Excess Notation swifts the binary number.
 
@@ -247,13 +245,13 @@ $$
 \end{array}
 $$
 
-### Real Number
+## Real Number
 
-#### Fixed-Point Representation
+### Fixed-Point Representation
 
 Range is limited.
 
-#### Floating Point Representation
+### Floating Point Representation
 
 3 component: sign, exponent, mantissa(fraction)
 
@@ -287,135 +285,3 @@ $$
 \hline
 \end{array}
 $$
-
-
-## MIPS
-
-### Brief
-
-- **Complier**: translates code into assembly language statement.
-- **Assembler**: translates assembly language into machine language instructions.
-
-- **Instruction Set Architecture** (ISA): An abstraction on interface between the hardware and the low-level software. (**Independent **from hardware)
-
-Summary:
-
-- Instruction and data are stored in memory **together**.
-
-- Load-Store Model: Limit memory operation and rely on registers for storage during execution.(Only Load and Store Instruction access memory)
-
-- Instruction Types: Memory, Calculation, Control Flow.
-
-- General Purpose Register:
-
-  - Faster processing
-
-  - Limited in number: 16 / 32 (MIPS) 个，**complier **associate variables with registers
-
-      | **Name**  | **Register  number** | **Usage**|
-      | --------- | -------------------- | -------- |
-      |\$zero     | 0                    | Constant  value 0 |
-      |\$at       | 1                    | Reserved for the assembler |
-      |\$v0-\$v1  | 2-3                  | Values  for results and expression evaluation |
-      |\$a0-\$a3  | 4-7                  | Arguments|
-      |\$t0-\$t7  | 8-15                 | Temporaries|
-      |\$s0-\$s7  | 16-23                | Program  variables|
-      |\$t8-\$t9  | 24-25                | More  temporaries |
-      |\$k0-\$k1  | 26-27                | Reserved for OS |
-      |\$gp       | 28                   | Global  pointer   |
-      |\$sp       | 29                   | Stack  pointer    |
-      |\$fp       | 30                   | Frame  pointer    |
-      |\$ra       | 31                   | Return  address   |
-
-  - **No Data Type**
-
-### Instruction
-
-MIPS is a Load-Store register architecture with **32** registers, each 32-bit long. Each **word** contain **32** bits. Memory addresses are **32-bit** long.
-
-Why? Answer: They can fit into registers.
-
-MIPS uses **byte address**, consecutive words differ by **4**
-
-#### Memory Instruction
-
-**Only** ``Load`` and ``Store`` instructions can access data in memory.
-
-```mipsasm
-lw $t0, 40($3) # Load Word MEM[[$3] + 40] to $t0
-sw $t0, 28($3) # Store Word [$t0] to MEM[[$3] + 28]
-lb # Load byte
-sb # Store byte
-ulw # unaligned load word
-lh # load half word
-lwl, lwr # load word left/right
-```
-
-**Important**: For ``lw`` and ``sw``, sum of base address and offset need to be multiple of 4.
-
-#### Decision
-
-Alter the control flow of program.
-Change the next instruction to be executed.
-
-- Conditional branch
-
-```mipsasm
-bne $t0, $t1, label # branch if not equal
-beq $t0, $t1, label # branch if equal
-```
-
-- Unconditional jump
-
-```mipsasm
-j label # jump to
-```
-
-Label is an "anchor" in the assembly code in indicate point of interest, usually as **branch target**, _NOT_ instructions.
-
-##### IF statement
-
-```C
-if (i == j){
-  a = b + c;
-}
-else{
-  a = b - c;
-}
-```
-
-convert to mips assembly.
-
-```mipsasm
-  bne $s1, $s2, ELSE
-  add $s0, $s3, $s4
-ELSE:
-  sub $s0, $s3, $s4
-EXIT:
-```
-
-##### Loop Statement
-
-```C
-while(i != j){
-    i = i + 1;
-}
-```
-
-convert to mips assembly.
-
-```mipsasm
-Loop:
-  beq $s1, $s2, Exit
-  addi $s1, $s1, 1
-  j Loop
-Exit:
-# Another form
-```
-
-##### Inequalities
-
-branch if less than, use ``slt`` (set on less than) or ``slti``.
-```mipsasm
-slt $t0, $s1, $s2 # $t0 set to 1 if [$s1] < [$s2]
-```
