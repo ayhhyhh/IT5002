@@ -250,7 +250,7 @@ They are relative jump, the address needs to calculate with PC.
 Mind times 4 !!!
 So branch range is $ \pm 2^{17} $ bytes or $\pm 2^{15}$ words
 
-### J-Format
+### J-Format Instruction
 
 Unconditional Jump: It is a **absolute** jump, non-relative with PC.
 
@@ -277,4 +277,116 @@ So jump range is 256 MB. $2^{28}$ bytes.
 - Base addressing: (``lw``) oprand is at the MEM whose address is sum of a register and a constant.
 - PC-relative addressing: (``beq``) address is sum of PC and a constant.
 - Pseduo-direct addressing: (``j``) upper 4-bit of PC + 26-bit constant + 00.
+
+[MIPS Reference Data](https://www.comp.nus.edu.sg/~cs2100/lect/MIPS_Reference_Data_page1.pdf)
+
+## Datapath
+
+- Collection of components that process data
+- Performs the arithmetic logical and memory operations
+
+### Fetch
+
+Use Program Counter(PC) to fetch instruction from memory.
+PC incremented by 4 to get the address of next instruction.
+The adder of PC is **sequencial circuit**, PC is read during the **first half of the clock period** and updated with PC+4 at the **next rising clock edge**
+
+### Decode
+
+- read **opcode** to determine instruction type and field length
+- read data from necessary registers
+
+Register File: Collection of registers, read from and write to registers.
+
+RegWrite: Control Signal, 0 for No Write, 1 for Write
+
+- R-Format: RR1 = rs, RR2 = rt, WR = rd, ALUSrc = 0
+- I-Format: RR1 = rs, RR2 = rt, WR = rt(MUX = 0), ALUSrc = 1(read data from Immediate)
+- ``beq``: RR1 = rs, RR2 = rt
+
+![20231018151513](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018151513.png)
+
+### ALU stage
+
+ALU: Arithmetic-Logic Unit
+Input: 2 32-bit number.
+Control Signal: 4-bit
+$$
+\begin{array}{|c|c|}
+  \hline
+  \text{ALUcontrol} & \text{Function} \\
+  \hline
+  0000 & \text{AND} \\
+  \hline
+  0001 & \text{OR} \\
+  \hline
+  0010 & \text{add} \\
+  \hline
+  0110 & \text{subtract} \\
+  \hline
+  0111 & \text{slt} \\
+  \hline
+  1100 & \text{NOR}\\
+  \hline
+\end{array}
+$$
+Output:
+
+- result
+- isZero(1-bit)
+
+Special Case: ``beq``, will use isZero to determine $\text{PC} = \text{PC} + 4$ OR $\text{PC} =  \text{PC} + 4 + \text{Immediate} \times 4$, using PCSrc signal.
+
+### Memory Stage
+
+Only load and store instructions(``lw``, ``sw``) need perform operations.
+Address is result from ALU. For ``sw``, data is from RD2. For ``lw``, data is X(don't care)
+
+### Register Write Stage
+
+Most instructions write result.
+**EXCEPT**: ``sw``, ``beq``, ``j``.
+
+Input from: ALU result or Memory.
+Control Signal: MemToReg, 1(upper one) for Memory, 0(lower one) for ALU result. Mind that it is **different** from other signal.
+
+![20231018153654](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018153654.png)
+
+## Control
+
+Signals:
+
+| **Control**  **Signal**     | **Execution**  **Stage**        | **Purpose**                                            |
+| --------------------------- | ------------------------------- | ------------------------------------------------------ |
+| **RegDst**                  | Decode/Operand  Fetch           | Select the destination register number <br> 0 for Inst[20:16], 1 for Inst[15:11]                 |
+| **RegWrite**                | Decode/Operand  Fetch  RegWrite | Enable writing of register                             |
+| **ALUSrc**                  | ALU                             | Select  the 2nd operand for ALU <br> 0 for RD2, 1 for SignExt(Inst[15:0])                        |
+| **ALUControl**              | ALU                             | Select  the operation to be performed                  |
+| **MemRead**  / **MemWrite** | Memory                          | Enable  reading/writing of  data memory                |
+| **MemToReg**                | RegWrite                        | Select  the result to be written back to register file. <br> 这个是反的，1在上边(MEM)，0在下边(ALU) |
+| **PCSrc**                   | Memory/RegWrite                 | Select  the next PC value <br> 0 for PC + 4, 1 for branch                              |
+
+### ALUcontrol
+
+ALU Stucture:
+![20231018161857](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018161857.png)
+
+ALUcontrol Signal:
+![20231018161833](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018161833.png)
+
+![20231018165507](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018165507.png)
+
+### Control Signal
+
+Signal Output:
+
+![20231018165733](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018165733.png)
+
+Signal Input:
+
+![20231018165759](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018165759.png)
+
+Circuit Implementation:
+
+![20231018165926](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018165926.png)
 
