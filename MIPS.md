@@ -21,20 +21,20 @@ Summary:
 
   - Limited in number: 16 / 32 (MIPS) 个，**complier** associate variables with registers
 
-      | **Name**  | **Register  number** | **Usage**|
-      | --------- | -------------------- | -------- |
-      |\$zero     | 0                    | Constant  value 0 |
-      |\$at       | 1                    | Reserved for the assembler |
-      |\$v0-\$v1  | 2-3                  | Values  for results and expression evaluation |
-      |\$a0-\$a3  | 4-7                  | Arguments|
-      |\$t0-\$t7  | 8-15                 | Temporaries|
-      |\$s0-\$s7  | 16-23                | Program  variables|
-      |\$t8-\$t9  | 24-25                | More  temporaries |
-      |\$k0-\$k1  | 26-27                | Reserved for OS |
-      |\$gp       | 28                   | Global  pointer   |
-      |\$sp       | 29                   | Stack  pointer    |
-      |\$fp       | 30                   | Frame  pointer    |
-      |\$ra       | 31                   | Return  address   |
+      | **Name**  | **Register  number** | **Usage**                                     |
+      | --------- | -------------------- | --------------------------------------------- |
+      | \$zero    | 0                    | Constant  value 0                             |
+      | \$at      | 1                    | Reserved for the assembler                    |
+      | \$v0-\$v1 | 2-3                  | Values  for results and expression evaluation |
+      | \$a0-\$a3 | 4-7                  | Arguments                                     |
+      | \$t0-\$t7 | 8-15                 | Temporaries                                   |
+      | \$s0-\$s7 | 16-23                | Program  variables                            |
+      | \$t8-\$t9 | 24-25                | More  temporaries                             |
+      | \$k0-\$k1 | 26-27                | Reserved for OS                               |
+      | \$gp      | 28                   | Global  pointer                               |
+      | \$sp      | 29                   | Stack  pointer                                |
+      | \$fp      | 30                   | Frame  pointer                                |
+      | \$ra      | 31                   | Return  address                               |
 
   - **No Data Type**
 
@@ -356,15 +356,15 @@ Control Signal: MemToReg, 1(upper one) for Memory, 0(lower one) for ALU result. 
 
 Signals:
 
-| **Control**  **Signal**     | **Execution**  **Stage**        | **Purpose**                                            |
-| --------------------------- | ------------------------------- | ------------------------------------------------------ |
-| **RegDst**                  | Decode/Operand  Fetch           | Select the destination register number <br> 0 for Inst[20:16], 1 for Inst[15:11]                 |
-| **RegWrite**                | Decode/Operand  Fetch  RegWrite | Enable writing of register                             |
-| **ALUSrc**                  | ALU                             | Select  the 2nd operand for ALU <br> 0 for RD2, 1 for SignExt(Inst[15:0])                        |
-| **ALUControl**              | ALU                             | Select  the operation to be performed                  |
-| **MemRead**  / **MemWrite** | Memory                          | Enable  reading/writing of  data memory                |
+| **Control**  **Signal**     | **Execution**  **Stage**        | **Purpose**                                                                                         |
+| --------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------- |
+| **RegDst**                  | Decode/Operand  Fetch           | Select the destination register number <br> 0 for Inst[20:16], 1 for Inst[15:11]                    |
+| **RegWrite**                | Decode/Operand  Fetch  RegWrite | Enable writing of register                                                                          |
+| **ALUSrc**                  | ALU                             | Select  the 2nd operand for ALU <br> 0 for RD2, 1 for SignExt(Inst[15:0])                           |
+| **ALUControl**              | ALU                             | Select  the operation to be performed                                                               |
+| **MemRead**  / **MemWrite** | Memory                          | Enable  reading/writing of  data memory                                                             |
 | **MemToReg**                | RegWrite                        | Select  the result to be written back to register file. <br> 这个是反的，1在上边(MEM)，0在下边(ALU) |
-| **PCSrc**                   | Memory/RegWrite                 | Select  the next PC value <br> 0 for PC + 4, 1 for branch                              |
+| **PCSrc**                   | Memory/RegWrite                 | Select  the next PC value <br> 0 for PC + 4, 1 for branch                                           |
 
 ### ALUcontrol
 
@@ -390,3 +390,83 @@ Circuit Implementation:
 
 ![20231018165926](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231018165926.png)
 
+## Pipeline
+
+Pipleline helps the **throughput** of entire workload, doesn't help latency of single task.
+
+Multiple task operating simulataneously using different resources.
+
+Possible Delays:
+
+- Slowest pipeline stage
+- Stall for dependencies
+
+Pipeline Stages:
+
+- IF: Instruction Fetch
+- ID: Instruction Decode and Register Read
+- EX: Execute an operation or calculate an address
+- MEM: Access an operand in data memory, or branch.
+- WB: Write back the result into register.
+
+Main Idea: Each stage take 1 clock. Instructions are executed simultaneously.
+
+Additional Registers are required to store result from previous stage.
+
+- IF/ID: PC+4(For branch), Instruction read from PC(Instruction Register).
+- ID/EX: Data values from register file(RD1, RD2), 32-bit immediate(I-Format), PC+4(For branch), write register(For write back).
+- EX/MEM: (PC+4)+4*Immediate, ALU result, isZero, RD2, write register.
+- MEM: ALU result, Memory read data, write register.
+- WB: Result written back to register file.
+
+![20231019203402](https://raw.githubusercontent.com/ayhhyhh/IMGbed/master/imgs/20231019203402.png)
+
+Performance Compute:
+
+- Single Cycle:
+
+For I instructions:
+
+- $T_k$: Time for operation in stage k.
+- $N$: Number of stages.
+
+$$
+\begin{aligned}
+  \text{Times}=& \text{Cycles}\times \text{CycleTime}\\
+  =& I \times \sum_{k=1}^N T_k
+\end{aligned}
+$$
+
+- Multi-Cycle:
+
+- Cycle time: longest stage duration.
+
+For I instruction:
+
+$$
+\begin{aligned}
+  \text{Times}=& \text{Cycles}\times \text{CycleTime}\\
+  =& I \times \text{Average CPI} \times \text{CycleTime}
+\end{aligned}
+$$
+
+- Pipeline
+
+- CycleTime: $\max(T_k) + T_{delay}$, $T_d$ is overhead for pipeline.
+
+For I structions:
+Total Cycles is $I+N-1$, $N-1$ is cycles in filling up the pipeline.
+
+$$
+\begin{aligned}
+  \text{Times}=& \text{Cycles}\times \text{CycleTime}\\
+  =& (I+N-1) \times (\max (T_k) + T_{delay})
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+  \text{Speedup}_{pipeline} = &\frac{\text{Time}_{seq}}{\text{Time}_{pipeline}} \\
+  =& \frac{I\times \sum_{k=1}^N T_k}{(I+N-1 \times (\max (T_k)+T_d))}
+\end{aligned}
+$$
