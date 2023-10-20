@@ -192,6 +192,17 @@ $$
 
 Similarly, r-1’s complement of a negative n-bit integer and m-bit fraction add its positive counterpart yield $r^n-r^m$(which is all ones, 1111.1111).
 
+When converting, mind round off to nearest number, For example:
+> 2.1 convert to 2's complement, 4 integer and 3 for fraction bits
+
+$$
+\begin{aligned}
+    2.1 =& 1\ times 2 + 1 \times 0.625 + \cdots \\
+     =& 10.0001\\
+     \approx & 0010.001
+\end{aligned}
+$$
+
 ## Addition and Subtraction
 
 Signed numbers are of a **fixed** range, so if go beyond this range, **overflow** occurs.
