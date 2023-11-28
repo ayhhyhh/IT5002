@@ -1,0 +1,1 @@
+PPT有点太混乱了，建议看[7.1 文件系统全家桶 | 小林coding (xiaolincoding.com)](https://www.xiaolincoding.com/os/6_file_system/file_system.html#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90).
