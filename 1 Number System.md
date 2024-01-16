@@ -21,10 +21,10 @@ $$
 $$
 
 $$
-\begin{array}{|c|c|c|} 
-\hline 
+\begin{array}{|c|c|c|}
+\hline
 \text{number} & & \text{reminder} \newline
-\hline 
+\hline
 43 &  & {} \\
 \hline
 21 & \mod 2 & 1(LSB) \\

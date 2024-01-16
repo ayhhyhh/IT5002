@@ -1,3 +1,3 @@
 # IT5002 Notes
 
-Notes for IT5002 Computer System and Applications
+Notes for NUS SOC IT5002 Computer System and Applications
